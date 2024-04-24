@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Source and Explanation: https://www.youtube.com/watch?v=SE1HXc2V3Xk -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop 2</title>
+  
+  <!-- CSS part -->
+  <style>
+  .container {
+    display: flex; /* Use flexbox to arrange the fields next to each other */
+  }
+
+  .slot {
+    width: 500px; 
+    height: 500px; 
+
+    border: 1px dashed #000; 
+    margin: 5px; 
+    box-sizing: border-box; /* Calculate size including the frame */
+  }
+
+  /* css-class used for visualize the target-slot of drag and drop */
+  /* optional */
+  .target_slot {
+    background-color: aqua;
+  }
+  </style>
+
+</head>
+
+<body>
+    <!-- html part -->
+    <div class="container">
+        <!-- class "slot" is used for containers, where the Element could be dropped -->
+        <!-- initaly the element (the picture) is in this slot-->
+        <div class="slot"> <!--first possible Slot for drop-->
+            <!-- the image is the element which we'd like to drag and drop. it has the id "picture_test"-->
+            <img src="picture.png" draggable="true" id="picture_test"/>
+        </div>
+
+        <div class="slot"> </div> <!--second possible Slot for drop-->
+        <div class="slot"> </div> <!--third possible Slot for drop-->
+
+    </div> 
+    
+    <!-- JS part -->
+    <script>
+        const element1 = document.getElementById('picture_test');
+        const slots = document.getElementsByClassName("slot");
+        
+        element1.addEventListener("dragstart", function (event) {
+            event.dataTransfer.setData("text/plain", event.target.id);
+        });
+
+        // declare all possible slots as dropzone
+        for (const slot of slots) {
+            // deactivate the default behaviour for dragover-event
+            slot.addEventListener("dragover", function (event) {
+              event.preventDefault();
+
+            // signal the eventListener, that the element should be droped instead of copied 
+            event.dataTransfer.dropEffect="move";  //Note: copy, link and move are possible attributes
+            });
+
+            // drop the element at the slot
+            slot.addEventListener("drop", function (event) {
+              // deactivate the default behaviour for drop-event
+              event.preventDefault;
+
+              // get ID of the element which is dragged
+              const dragged_id = event.dataTransfer.getData("text/plain");
+
+              // select dragged element
+              const dragged_element = document.getElementById(dragged_id)
+
+              // move the element from previous slot to new slot
+              event.target.appendChild(dragged_element);
+
+            });
+
+            // visualize that you hovering with the element above a valid drop-zone
+            // optional
+            
+            // color the slot..
+            slot.addEventListener("dragenter", function (event) {
+              // add css class "target_slot" to target
+              event.target.classList.add("target_slot");
+
+              // but only if the content of the element is of class slot and there is no entry in the child-class
+              if (
+                event.target.classList.contains("slot") &&
+                event.target.children.length === 0
+              ) {
+                event.target.classList.add("target_slot")
+              }
+            });
+
+            // ..but only as long as you hovering above it
+            slot.addEventListener("dragleave", function (event) {
+              event.target.classList.remove("target_slot"); // remove the target_slot css 
+            });
+
+            // end the drag & drop event 
+            slot.addEventListener("dragend", function (event){
+              slot.classList.remove("target_slot")
+            });
+        }
+
+    </script>
+
+</body>
+</html>
