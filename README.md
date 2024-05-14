@@ -1,5 +1,12 @@
 # Materials for students
 
+# current version
+
+There is just one .pdf with "instructions", containting the presentation of 14.05.2024.
+
+# in folder _old
+previous tasks and material
+
 ## drag_and_drop
 code reffering to the YouTube Tutorial <br><br><b> Drag and Drop mit HTML und JavaScript - Deutsches Tutorial</b> <br><br>from <b>Dev Planet Germany</b>. This could be a intro to drag&drop with html and JavaScript.<br> GoalSetting in the HAPS Hidden Profile Project. <br> (Source: https://www.youtube.com/watch?v=SE1HXc2V3Xk)
 <br><br>
